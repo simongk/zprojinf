@@ -11,6 +11,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/event")
+@CrossOrigin
 public class EventController {
 
     private final EventRepository repository;
@@ -19,19 +20,6 @@ public class EventController {
     public EventController(EventRepository repository) {
         this.repository = repository;
     }
-
-    @RequestMapping()
-    public void addToDatabase() {
-        Event e = new Event();
-        e.setName("Spring Boot Workshop");
-        e.setLocation("Internet");
-        Event e2 = new Event();
-        e2.setName("Gowno");
-        e2.setLocation("Kibel");
-        repository.save(e);
-        repository.save(e2);
-    }
-
 
     @GetMapping("/all")
     public List<Event> getAllEvents() {
@@ -57,7 +45,8 @@ public class EventController {
         return repository.save(newEvent);
     }
 
-    public Event getEventByName(String name) {
+    @GetMapping("/event/{name}")
+    public Event getEventByName(@PathVariable String name) {
         return repository.findByName(name);
     }
 }
